@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimized Git-Based Task Logging & AI-Driven Development</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; }
+        h1, h2, h3 { color: #333; }
+        code { background-color: #f4f4f4; padding: 3px 6px; border-radius: 3px; }
+        pre { background: #eee; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Optimized Git-Based Task Logging, Amplify Deployment, and AI-Driven Development Workflow</h1>
+
+    <h2>Overview</h2>
+    <p>We are building a <strong>Next.js application</strong> hosted in <strong>AWS Amplify</strong>, using <strong>AWS AppSync</strong> and <strong>GraphQL</strong>. Our repository is managed in <strong>AWS CodeCommit</strong>, with the <strong>main branch</strong> synchronized with Amplify for deployment.</p>
+    
+    <h2>1. Git-Based Task Time Logging</h2>
+    <p>To track developer work hours, implement:</p>
+    <ul>
+        <li><strong>Pre-Pull Hook</strong> – Logs work start time.</li>
+        <li><strong>Post-Push Hook</strong> – Logs work completion.</li>
+        <li><strong>AWS CodeCommit Triggers</strong> – Lambda function extracts commit timestamps and updates the sprint project via API.</li>
+    </ul>
+
+    <h2>2. Optimize Feature Branch Deployments in Amplify</h2>
+    <p>Currently, each new branch creates a new Amplify app, duplicating AWS resources.</p>
+    <h3>Solution:</h3>
+    <pre>
+backend:
+  phases:
+    build:
+      commands:
+        - export AMPLIFY_SKIP_BACKEND_BUILD=true
+    </pre>
+
+    <h2>3. Automated Cypress Testing on Commit</h2>
+    <p>Modify <code>amplify.yml</code>:</p>
+    <pre>
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm install
+    build:
+      commands:
+        - npm run build
+        - npx cypress run --reporter junit --reporter-options "mochaFile=./results/test-results.xml"
+    </pre>
+
+    <h2>4. AI-Powered Code Review & Feedback</h2>
+    <p>Each commit should trigger an AI system to:</p>
+    <ul>
+        <li>Fetch <strong>modified files</strong> from CodeCommit/GitHub.</li>
+        <li>Analyze changes using <strong>Amazon Bedrock/OpenAI Codex</strong>.</li>
+        <li>Provide <strong>feedback</strong> in chat and sprint task comments.</li>
+    </ul>
+
+    <h2>5. Centralized Sprint Task Updates</h2>
+    <p>Lambda API fetches commit metadata and logs updates.</p>
+    
+    <h2>Final Workflow</h2>
+    <ol>
+        <li>Developer starts a task (<code>git pull</code> logs start time).</li>
+        <li>Developer commits changes → Triggers Cypress tests & AI analysis.</li>
+        <li>Developer pushes changes (<code>git push</code> logs end time).</li>
+        <li>Amplify deploys frontend (without duplicating backend resources).</li>
+        <li>Once merged, the branch is deleted (keeping Amplify clean).</li>
+    </ol>
+
+    <h2>Key Benefits</h2>
+    <ul>
+        <li>✅ <strong>Accurate work hour tracking</strong></li>
+        <li>✅ <strong>Optimized branching strategy</strong></li>
+        <li>✅ <strong>Automated Cypress testing</strong></li>
+        <li>✅ <strong>AI-powered code review & feedback</strong></li>
+        <li>✅ <strong>Sprint tasks updated automatically</strong></li>
+    </ul>
+
+    <p>🚀 This approach enhances automation, reduces AWS costs, improves testing, and enables AI-driven insights!</p>
+</body>
+</html>
